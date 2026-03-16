@@ -13,31 +13,93 @@
     --text: #e8e4dc;
     --border: rgba(200,169,126,0.15);
   }
+
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'Jost',sans-serif; padding: 20px; }
+  body { 
+    background: var(--bg); 
+    color: var(--text); 
+    font-family: 'Jost', sans-serif; 
+    padding: 20px;
+    line-height: 1.6;
+  }
+
   header { padding: 40px 0; text-align: center; }
-  h1 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; }
-  .container { max-width: 600px; margin: 0 auto; }
-  .exercise-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 15px; overflow: hidden; cursor: pointer; }
-  .header-row { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-  .title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--accent); }
-  .content-box { display: none; padding: 0 20px 20px; }
-  .exercise-card.active .content-box { display: block; }
-  video { width: 100%; border-radius: 8px; margin-bottom: 15px; background: #000; }
-  .instruction-text { font-size: 0.9rem; color: #b5b2aa; line-height: 1.4; }
+  h1 { 
+    font-family: 'Cormorant Garamond', serif; 
+    font-size: 2.2rem; 
+    color: var(--accent); 
+    letter-spacing: 3px; 
+    text-transform: uppercase;
+    font-weight: 300;
+  }
+
+  .container { max-width: 500px; margin: 0 auto; }
+
+  .exercise-card { 
+    background: var(--card); 
+    border: 1px solid var(--border); 
+    border-radius: 12px; 
+    margin-bottom: 15px; 
+    overflow: hidden; 
+    transition: all 0.3s ease;
+  }
+
+  .header-row { 
+    padding: 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    cursor: pointer;
+  }
+
+  .title { 
+    font-family: 'Cormorant Garamond', serif; 
+    font-size: 1.3rem; 
+    color: var(--accent); 
+  }
+
+  .content-box { 
+    display: none; 
+    padding: 0 20px 20px; 
+  }
+
+  /* Класс для открытия карточки */
+  .exercise-card.active .content-box { 
+    display: block; 
+  }
+
+  video { 
+    width: 100%; 
+    border-radius: 8px; 
+    margin-bottom: 15px; 
+    background: #000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  }
+
+  .instruction-text { 
+    font-size: 0.9rem; 
+    color: #b5b2aa; 
+    border-left: 1px solid var(--accent);
+    padding-left: 15px;
+  }
+
+  .num { opacity: 0.4; margin-right: 10px; font-size: 0.9rem; }
 </style>
 </head>
 <body>
 
-<header><h1>Эстетика Растяжки</h1></header>
+<header>
+  <h1>Эстетика Растяжки</h1>
+</header>
+
 <div class="container" id="exerciseList"></div>
 
 <script>
-// Данные теперь связаны с именами файлов v1.mp4, v2.mp4...
+// Твои данные. Здесь мы используем ID, чтобы находить файлы v1.mp4, v2.mp4 и т.д.
 const data = [
   { id: 1, name: "Бабочка", info: "Выполнять по 1 мин. Можно помогать руками." },
   { id: 2, name: "Бабочка с наклоном вперед", info: "Выполнять 1-2 мин. Максимально расслабьте бедра." },
-  { id: 3, name: "Два наклона вперед", info: "Третий с удержанием 10 сек." },
+  { id: 3, name: "Два наклона вперед", info: "Третий наклон с удержанием 10 сек." },
   { id: 4, name: "Ноги врозь", info: "Боковые наклоны к ноге с удержанием." },
   { id: 5, name: "Прогиб назад", info: "Наклон назад с прогибом в спине (держать по 1 мин)." },
   { id: 6, name: "Выпад на обе ноги", info: "Выполнять по 1 мин на каждую ногу." },
@@ -46,7 +108,7 @@ const data = [
   { id: 9, name: "Обхват ноги", info: "С внутренней стороны с обхватом пятки." },
   { id: 10, name: "Корзинка", info: "С удержанием 5 секунд. Выполнять по 5 раз." },
   { id: 11, name: "Прогиб с колен", info: "Удерживая руками голень." },
-  { id: 12, name: "Шпагат", info: "Выполнять поэтапно." },
+  { id: 12, name: "Шпагат", info: "Выполнять поэтапно и осторожно." },
   { id: 13, name: "Махи ногами", info: "Поочередно с удержанием по 3 секунды." }
 ];
 
@@ -55,41 +117,56 @@ let currentActive = null;
 function draw() {
   const root = document.getElementById('exerciseList');
   root.innerHTML = data.map(item => `
-    <div class="exercise-card ${currentActive === item.id ? 'active' : ''}" onclick="toggleCard(${item.id})">
-      <div class="header-row">
-        <div class="title">${item.id}. ${item.name}</div>
+    <div class="exercise-card ${currentActive === item.id ? 'active' : ''}" id="card-${item.id}">
+      <div class="header-row" onclick="toggleCard(${item.id})">
+        <div class="title"><span class="num">${item.id}</span>${item.name}</div>
       </div>
       <div class="content-box">
         <video id="v-${item.id}" loop muted playsinline controls>
           <source src="v${item.id}.mp4" type="video/mp4">
           Ваш браузер не поддерживает видео.
         </video>
-        <div class="instruction-text"><b>Техника:</b> ${item.info}</div>
+        <div class="instruction-text">
+          <b>Техника:</b> ${item.info}
+        </div>
       </div>
     </div>
   `).join('');
 }
 
 function toggleCard(id) {
-  // Закрываем текущую карточку или открываем новую
+  // Если нажимаем на ту же карточку — закрываем её
   if (currentActive === id) {
+    const video = document.getElementById(`v-${id}`);
+    if (video) video.pause();
     currentActive = null;
   } else {
+    // Закрываем предыдущее видео, если оно было
+    if (currentActive !== null) {
+      const oldVideo = document.getElementById(`v-${currentActive}`);
+      if (oldVideo) oldVideo.pause();
+    }
     currentActive = id;
   }
   
   draw();
 
-  // Если открыли карточку — запускаем видео
+  // Если открыли новую карточку — запускаем видео
   if (currentActive !== null) {
     setTimeout(() => {
-        const v = document.getElementById(`v-${id}`);
-        if(v) v.play();
-    }, 150);
+      const video = document.getElementById(`v-${id}`);
+      if (video) {
+        video.play().catch(e => console.log("Автозапуск заблокирован браузером"));
+      }
+      // Плавная прокрутка к открытой карточке
+      document.getElementById(`card-${id}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
   }
 }
 
+// Первый запуск отрисовки
 draw();
 </script>
+
 </body>
 </html>
