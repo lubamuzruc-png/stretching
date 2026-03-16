@@ -1,60 +1,60 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Эстетика Растяжки</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Jost:wght@200;300&display=swap" rel="stylesheet">
-<style>
-  :root { --bg: #0d0d0f; --card: #1a1a1f; --accent: #c8a97e; --text: #e8e4dc; }
-  body { background: var(--bg); color: var(--text); font-family: 'Jost', sans-serif; padding: 20px; }
-  .container { max-width: 500px; margin: 0 auto; }
-  header { text-align: center; padding: 30px 0; }
-  h1 { font-family: 'Cormorant Garamond', serif; color: var(--accent); letter-spacing: 2px; }
-  .exercise-card { background: var(--card); border: 1px solid rgba(200,169,126,0.15); border-radius: 12px; margin-bottom: 20px; padding: 15px; }
-  .title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--accent); margin-bottom: 10px; }
-  video { width: 100%; border-radius: 8px; background: #000; }
-  .info { font-size: 0.9rem; margin-top: 10px; opacity: 0.8; line-height: 1.4; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Эстетика Растяжки</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Jost:wght@200;300&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0d0d0f; --card: #1a1a1f; --accent: #c8a97e; --text: #e8e4dc; }
+        body { background: var(--bg); color: var(--text); font-family: 'Jost', sans-serif; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        header { text-align: center; padding: 30px 0; }
+        h1 { font-family: 'Cormorant Garamond', serif; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; }
+        .exercise-card { background: var(--card); border: 1px solid rgba(200,169,126,0.15); border-radius: 12px; margin-bottom: 25px; padding: 20px; }
+        .title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--accent); margin-bottom: 15px; }
+        video { width: 100%; border-radius: 8px; background: #000; display: block; }
+        .info { font-size: 0.95rem; margin-top: 15px; opacity: 0.8; line-height: 1.5; border-left: 1px solid var(--accent); padding-left: 15px; }
+    </style>
 </head>
 <body>
 
 <div class="container">
-  <header><h1>ЭСТЕТИКА РАСТЯЖКИ</h1></header>
-  <div id="exerciseList"></div>
+    <header><h1>Эстетика Растяжки</h1></header>
+    <div id="list"></div>
 </div>
 
 <script>
-const data = [
-  { id: 1, name: "Бабочка", info: "1 мин. Помогайте руками." },
-  { id: 2, name: "Бабочка с наклоном", info: "1-2 мин." },
-  { id: 3, name: "Два наклона вперед", info: "Третий с удержанием 10 сек." },
-  { id: 4, name: "Ноги врозь", info: "Боковые наклоны." },
-  { id: 5, name: "Прогиб назад", info: "Держать 1 мин." },
-  { id: 6, name: "Выпады", info: "По 1 мин на ногу." },
-  { id: 7, name: "Выпад со сгибом", info: "Растяжка задней ноги." },
-  { id: 8, name: "Скрещивание рук", info: "Вытягивание ног вперед." },
-  { id: 9, name: "Обхват ноги", info: "Складка за пятку." },
-  { id: 10, name: "Корзинка", info: "Удержание 5 сек." },
-  { id: 11, name: "Прогиб с колен", info: "Держим голени." },
-  { id: 12, name: "Шпагат", info: "Поэтапно." },
-  { id: 13, name: "Махи ногами", info: "Удержание по 3 сек." }
+const exercises = [
+    { id: 1, name: "Бабочка", info: "Выполнять по 1 мин. Можно помогать руками." },
+    { id: 2, name: "Бабочка с наклоном", info: "Выполнять 1-2 мин. Расслабьте бедра." },
+    { id: 3, name: "Два наклона вперед", info: "Третий наклон с удержанием 10 сек." },
+    { id: 4, name: "Ноги врозь", info: "Боковые наклоны к ноге с удержанием." },
+    { id: 5, name: "Прогиб в спине", info: "Наклон назад, держать по 1 мин." },
+    { id: 6, name: "Выпады", info: "На правую и левую ногу по 1 мин." },
+    { id: 7, name: "Выпад со сгибом", info: "Растяжка со сгибом в задней ноге." },
+    { id: 8, name: "Скрещивание рук", info: "С вытягиванием ног вперед." },
+    { id: 9, name: "Обхват ноги", info: "С внутренней стороны с обхватом пятки." },
+    { id: 10, name: "Корзинка", info: "С удержанием 5 секунд. 5 повторов." },
+    { id: 11, name: "Прогиб с колен", info: "Удерживая руками голень." },
+    { id: 12, name: "Шпагат", info: "Выполнять поэтапно и осторожно." },
+    { id: 13, name: "Махи ногами", info: "Поочередно с удержанием по 3 сек." }
 ];
 
-const list = document.getElementById('exerciseList');
+const listContainer = document.getElementById('list');
 
-data.forEach(item => {
-  const card = document.createElement('div');
-  card.className = 'exercise-card';
-  // Здесь мы убрали все папки, видео ищется по имени v1.mp4 прямо в корне
-  card.innerHTML = `
-    <div class="title">${item.id}. ${item.name}</div>
-    <video controls playsinline muted loop>
-      <source src="v${item.id}.mp4" type="video/mp4">
-    </video>
-    <div class="info"><b>Техника:</b> ${item.info}</div>
-  `;
-  list.appendChild(card);
+exercises.forEach(ex => {
+    const card = document.createElement('div');
+    card.className = 'exercise-card';
+    card.innerHTML = `
+        <div class="title">${ex.id}. ${ex.name}</div>
+        <video controls playsinline muted loop preload="metadata">
+            <source src="v${ex.id}.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+        </div>
+        <div class="info"><b>Техника:</b> ${ex.info}</div>
+    `;
+    listContainer.appendChild(card);
 });
 </script>
 </body>
