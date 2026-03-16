@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Эстетика Растяжки</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --card: #1a1a1f;
+    --accent: #c8a97e;
+    --text: #e8e4dc;
+    --border: rgba(200,169,126,0.15);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Jost',sans-serif; padding: 20px; }
+  header { padding: 40px 0; text-align: center; }
+  h1 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; }
+  .container { max-width: 600px; margin: 0 auto; }
+  .exercise-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 15px; overflow: hidden; cursor: pointer; }
+  .header-row { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+  .title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--accent); }
+  .content-box { display: none; padding: 0 20px 20px; }
+  .exercise-card.active .content-box { display: block; }
+  video { width: 100%; border-radius: 8px; margin-bottom: 15px; background: #000; }
+  .instruction-text { font-size: 0.9rem; color: #b5b2aa; line-height: 1.4; }
+</style>
+</head>
+<body>
+
+<header><h1>Эстетика Растяжки</h1></header>
+<div class="container" id="exerciseList"></div>
+
+<script>
+// Список всех твоих видео с их точными названиями
+const data = [
+  { id: 1, name: "Бабочка", file: "1)бабочка (выполнять по 1мин, можно помогать рукам.mp4", info: "Выполнять по 1 мин, можно помогать руками." },
+  { id: 2, name: "Бабочка с наклоном", file: "2)Бабочка с наклоном вперед (выполнять 1-2мин).mp4", info: "Выполнять 1-2 мин." },
+  { id: 3, name: "Два наклона", file: "3)Два наклона вперед, третий с удержанием 10сек ( .mp4", info: "Третий наклон с удержанием 10 сек." },
+  { id: 4, name: "Ноги врозь", file: "4)ноги врозь и боковые наклоны к ноге, с удержание.mp4", info: "Боковые наклоны с удержанием." },
+  { id: 5, name: "Прогиб назад", file: "5)наклон назад с прогибом в спине ( держать по 1ми.mp4", info: "Держать по 1 минуте." },
+  { id: 6, name: "Выпады", file: "6)выпад на правую и левую ногу (выполнять 1мин)..mp4", info: "Выполнять по 1 минуте на каждую ногу." },
+  { id: 7, name: "Выпад со сгибом", file: "7)выпад на правую и левую ногу, со сгибом в задней.mp4", info: "Со сгибом в задней ноге." },
+  { id: 8, name: "Скрещивание рук", file: "8)скрещивание рук с вытягиванием ног вперед ( выпо.mp4", info: "Выполнять плавно." },
+  { id: 9, name: "Обхват ноги", file: "9)обхват ноги со внутренней стороны, с обхватом пя.mp4", info: "Обхват пятки." },
+  { id: 10, name: "Корзинка", file: "10) корзинка с удержанием 5 секунд ( выполнять по .mp4", info: "Удержание 5 секунд, несколько повторов." },
+  { id: 11, name: "Прогиб с колен", file: "11)прогиб с колен удерживая руками голень ( выполн.mp4", info: "Удерживайте голени руками." },
+  { id: 12, name: "Шпагат", file: "12)шпагат по этапно.mp4", info: "Выполнять поэтапно и осторожно." },
+  { id: 13, name: "Махи ногами", file: "13) мах ноги к себе по очередно с удержанием по 3 .mp4", info: "Удержание по 3 секунды." }
+];
+
+let currentActive = null;
+
+function draw() {
+  const root = document.getElementById('exerciseList');
+  root.innerHTML = data.map(item => `
+    <div class="exercise-card ${currentActive === item.id ? 'active' : ''}" onclick="toggleCard(${item.id})">
+      <div class="header-row">
+        <div class="title">${item.id}. ${item.name}</div>
+      </div>
+      <div class="content-box">
+        <video id="v-${item.id}" loop muted playsinline controls>
+          <source src="${encodeURIComponent(item.file)}" type="video/mp4">
+        </video>
+        <div class="instruction-text"><b>Техника:</b> ${item.info}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleCard(id) {
+  if (currentActive === id) {
+    currentActive = null;
+  } else {
+    currentActive = id;
+  }
+  draw();
+  if (currentActive !== null) {
+    setTimeout(() => {
+        const v = document.getElementById(`v-${id}`);
+        if(v) v.play();
+    }, 150);
+  }
+}
+
+draw();
+</script>
+</body>
+</html>
