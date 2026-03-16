@@ -4,150 +4,58 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Эстетика Растяжки</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Jost:wght@200;300&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0d0d0f;
-    --card: #1a1a1f;
-    --accent: #c8a97e;
-    --text: #e8e4dc;
-    --muted: #6b6860;
-    --border: rgba(200,169,126,0.15);
-    --glow: rgba(200,169,126,0.12);
-  }
-
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'Jost',sans-serif; min-height:100vh; }
-
-  header { padding: 60px 20px 30px; text-align: center; }
-  h1 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; }
-  h1 em { font-style: italic; color: var(--accent); }
-
-  .container { max-width: 650px; margin: 0 auto; padding: 0 20px 100px; }
-
-  .exercise-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 15px;
-    transition: all 0.4s ease;
-    cursor: pointer;
-  }
-
-  .exercise-card.active { border-color: var(--accent); box-shadow: 0 10px 30px var(--glow); }
-
-  .header-row { display: flex; justify-content: space-between; align-items: center; }
-  .title { font-family: 'Cormorant Garamond'; font-size: 1.4rem; color: var(--text); }
-  .num { color: var(--accent); font-size: 0.9rem; opacity: 0.5; margin-right: 10px; }
-
-  .content-box {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .active .content-box {
-    max-height: 1200px;
-    opacity: 1;
-    margin-top: 20px;
-  }
-
-  video {
-    width: 100%;
-    border-radius: 4px;
-    background: #000;
-    display: block;
-    object-fit: contain;
-  }
-
-  .instruction-text {
-    margin-top: 15px;
-    padding: 15px;
-    background: rgba(200, 169, 126, 0.05);
-    border-left: 2px solid var(--accent);
-    color: var(--text);
-    font-size: 1rem;
-    line-height: 1.5;
-    font-family: 'Jost', sans-serif;
-  }
-  
-  .instruction-text b { color: var(--accent); font-weight: 400; }
-
+  :root { --bg: #0d0d0f; --card: #1a1a1f; --accent: #c8a97e; --text: #e8e4dc; }
+  body { background: var(--bg); color: var(--text); font-family: 'Jost', sans-serif; padding: 20px; }
+  .container { max-width: 500px; margin: 0 auto; }
+  header { text-align: center; padding: 30px 0; }
+  h1 { font-family: 'Cormorant Garamond', serif; color: var(--accent); letter-spacing: 2px; }
+  .exercise-card { background: var(--card); border: 1px solid rgba(200,169,126,0.15); border-radius: 12px; margin-bottom: 20px; padding: 15px; }
+  .title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--accent); margin-bottom: 10px; }
+  video { width: 100%; border-radius: 8px; background: #000; }
+  .info { font-size: 0.9rem; margin-top: 10px; opacity: 0.8; line-height: 1.4; }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Эстетика <em>Растяжки</em></h1>
-</header>
-
-<div class="container" id="exerciseList"></div>
+<div class="container">
+  <header><h1>ЭСТЕТИКА РАСТЯЖКИ</h1></header>
+  <div id="exerciseList"></div>
+</div>
 
 <script>
 const data = [
-  { id: 1, name: "Бабочка", info: "Выполнять по 1 мин, можно помогать руками." },
-  { id: 2, name: "Бабочка с наклоном вперед", info: "Выполнять 1-2 мин." },
-  { id: 3, name: "Два наклона вперед, третий с удержанием", info: "Удержание 10 сек. Выполнять по 8 раз." },
-  { id: 4, name: "Ноги врозь и боковые наклоны", info: "Удержание по 5 сек. Выполнять 15x15 раз." },
-  { id: 5, name: "Наклон назад с прогибом в спине", info: "Держать по 1 мин, по 3 подхода." },
-  { id: 6, name: "Выпад на правую и левую ногу", info: "Выполнять по 1 мин." },
-  { id: 7, name: "Выпад со сгибом в задней ноге", info: "Противоположная рука удерживает ногу. Выполнять 1 мин." },
-  { id: 8, name: "Скрещивание рук с вытягиванием ног", info: "Выполнять 1 мин." },
-  { id: 9, name: "Обхват ноги со внутренней стороны", info: "Обхват пятки и складка. На каждую ногу по 1 мин." },
-  { id: 10, name: "Корзинка", info: "С удержанием 5 секунд. Выполнять по 5 раз.", fileName: "v10 .mp4" }, // Специально для файла с пробелом
-  { id: 11, name: "Прогиб с колен", info: "Удерживая руками голень. Выполнять 1 мин." },
-  { id: 12, name: "Шпагат", info: "Выполнять поэтапно." },
-  { id: 13, name: "Мах ноги к себе поочередно", info: "С удержанием по 3 секунды. Выполнять 15x15 раз." }
+  { id: 1, name: "Бабочка", info: "1 мин. Помогайте руками." },
+  { id: 2, name: "Бабочка с наклоном", info: "1-2 мин." },
+  { id: 3, name: "Два наклона вперед", info: "Третий с удержанием 10 сек." },
+  { id: 4, name: "Ноги врозь", info: "Боковые наклоны." },
+  { id: 5, name: "Прогиб назад", info: "Держать 1 мин." },
+  { id: 6, name: "Выпады", info: "По 1 мин на ногу." },
+  { id: 7, name: "Выпад со сгибом", info: "Растяжка задней ноги." },
+  { id: 8, name: "Скрещивание рук", info: "Вытягивание ног вперед." },
+  { id: 9, name: "Обхват ноги", info: "Складка за пятку." },
+  { id: 10, name: "Корзинка", info: "Удержание 5 сек." },
+  { id: 11, name: "Прогиб с колен", info: "Держим голени." },
+  { id: 12, name: "Шпагат", info: "Поэтапно." },
+  { id: 13, name: "Махи ногами", info: "Удержание по 3 сек." }
 ];
 
-let currentActive = null;
+const list = document.getElementById('exerciseList');
 
-function draw() {
-  const root = document.getElementById('exerciseList');
-  root.innerHTML = data.map(item => {
-    // Определяем имя файла: если оно задано отдельно (как для v10), берем его, иначе стандартное
-    const videoName = item.fileName ? item.fileName : `v${item.id}.mp4`;
-    
-    return `
-      <div class="exercise-card ${currentActive === item.id ? 'active' : ''}" onclick="openCard(${item.id})">
-        <div class="header-row">
-          <div class="title"><span class="num">${item.id}.</span>${item.name}</div>
-        </div>
-        
-        <div class="content-box">
-          <video id="v-${item.id}" loop muted playsinline controls>
-            <source src="${encodeURIComponent(videoName)}" type="video/mp4">
-          </video>
-          <div class="instruction-text">
-            <b>Как делать:</b> ${item.info}
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-function openCard(id) {
-  if (currentActive !== null) {
-    const p = document.getElementById(`v-${currentActive}`);
-    if (p) p.pause();
-  }
-
-  if (currentActive === id) {
-    currentActive = null;
-  } else {
-    currentActive = id;
-    setTimeout(() => {
-      const v = document.getElementById(`v-${id}`);
-      if (v) v.play().catch(() => {});
-    }, 400);
-  }
-  draw();
-}
-
-draw();
+data.forEach(item => {
+  const card = document.createElement('div');
+  card.className = 'exercise-card';
+  // Здесь мы убрали все папки, видео ищется по имени v1.mp4 прямо в корне
+  card.innerHTML = `
+    <div class="title">${item.id}. ${item.name}</div>
+    <video controls playsinline muted loop>
+      <source src="v${item.id}.mp4" type="video/mp4">
+    </video>
+    <div class="info"><b>Техника:</b> ${item.info}</div>
+  `;
+  list.appendChild(card);
+});
 </script>
 </body>
 </html>
