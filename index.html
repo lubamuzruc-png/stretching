@@ -4,169 +4,150 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Эстетика Растяжки</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0d0d0f;
     --card: #1a1a1f;
     --accent: #c8a97e;
     --text: #e8e4dc;
+    --muted: #6b6860;
     --border: rgba(200,169,126,0.15);
+    --glow: rgba(200,169,126,0.12);
   }
 
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { 
-    background: var(--bg); 
-    color: var(--text); 
-    font-family: 'Jost', sans-serif; 
+  body { background:var(--bg); color:var(--text); font-family:'Jost',sans-serif; min-height:100vh; }
+
+  header { padding: 60px 20px 30px; text-align: center; }
+  h1 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; }
+  h1 em { font-style: italic; color: var(--accent); }
+
+  .container { max-width: 650px; margin: 0 auto; padding: 0 20px 100px; }
+
+  .exercise-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
     padding: 20px;
-    line-height: 1.6;
-  }
-
-  header { padding: 40px 0; text-align: center; }
-  h1 { 
-    font-family: 'Cormorant Garamond', serif; 
-    font-size: 2.2rem; 
-    color: var(--accent); 
-    letter-spacing: 3px; 
-    text-transform: uppercase;
-    font-weight: 300;
-  }
-
-  .container { max-width: 500px; margin: 0 auto; }
-
-  .exercise-card { 
-    background: var(--card); 
-    border: 1px solid var(--border); 
-    border-radius: 12px; 
-    margin-bottom: 15px; 
-    overflow: hidden; 
-    transition: all 0.3s ease;
-  }
-
-  .header-row { 
-    padding: 20px; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
+    margin-bottom: 15px;
+    transition: all 0.4s ease;
     cursor: pointer;
   }
 
-  .title { 
-    font-family: 'Cormorant Garamond', serif; 
-    font-size: 1.3rem; 
-    color: var(--accent); 
+  .exercise-card.active { border-color: var(--accent); box-shadow: 0 10px 30px var(--glow); }
+
+  .header-row { display: flex; justify-content: space-between; align-items: center; }
+  .title { font-family: 'Cormorant Garamond'; font-size: 1.4rem; color: var(--text); }
+  .num { color: var(--accent); font-size: 0.9rem; opacity: 0.5; margin-right: 10px; }
+
+  .content-box {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .content-box { 
-    display: none; 
-    padding: 0 20px 20px; 
+  .active .content-box {
+    max-height: 1200px;
+    opacity: 1;
+    margin-top: 20px;
   }
 
-  /* Класс для открытия карточки */
-  .exercise-card.active .content-box { 
-    display: block; 
-  }
-
-  video { 
-    width: 100%; 
-    border-radius: 8px; 
-    margin-bottom: 15px; 
+  video {
+    width: 100%;
+    border-radius: 4px;
     background: #000;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    display: block;
+    object-fit: contain;
   }
 
-  .instruction-text { 
-    font-size: 0.9rem; 
-    color: #b5b2aa; 
-    border-left: 1px solid var(--accent);
-    padding-left: 15px;
+  .instruction-text {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(200, 169, 126, 0.05);
+    border-left: 2px solid var(--accent);
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.5;
+    font-family: 'Jost', sans-serif;
   }
+  
+  .instruction-text b { color: var(--accent); font-weight: 400; }
 
-  .num { opacity: 0.4; margin-right: 10px; font-size: 0.9rem; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Эстетика Растяжки</h1>
+  <h1>Эстетика <em>Растяжки</em></h1>
 </header>
 
 <div class="container" id="exerciseList"></div>
 
 <script>
-// Твои данные. Здесь мы используем ID, чтобы находить файлы v1.mp4, v2.mp4 и т.д.
 const data = [
-  { id: 1, name: "Бабочка", info: "Выполнять по 1 мин. Можно помогать руками." },
-  { id: 2, name: "Бабочка с наклоном вперед", info: "Выполнять 1-2 мин. Максимально расслабьте бедра." },
-  { id: 3, name: "Два наклона вперед", info: "Третий наклон с удержанием 10 сек." },
-  { id: 4, name: "Ноги врозь", info: "Боковые наклоны к ноге с удержанием." },
-  { id: 5, name: "Прогиб назад", info: "Наклон назад с прогибом в спине (держать по 1 мин)." },
-  { id: 6, name: "Выпад на обе ноги", info: "Выполнять по 1 мин на каждую ногу." },
-  { id: 7, name: "Выпад со сгибом", info: "Выпад со сгибом в задней ноге." },
-  { id: 8, name: "Скрещивание рук", info: "С вытягиванием ног вперед." },
-  { id: 9, name: "Обхват ноги", info: "С внутренней стороны с обхватом пятки." },
-  { id: 10, name: "Корзинка", info: "С удержанием 5 секунд. Выполнять по 5 раз." },
-  { id: 11, name: "Прогиб с колен", info: "Удерживая руками голень." },
-  { id: 12, name: "Шпагат", info: "Выполнять поэтапно и осторожно." },
-  { id: 13, name: "Махи ногами", info: "Поочередно с удержанием по 3 секунды." }
+  { id: 1, name: "Бабочка", info: "Выполнять по 1 мин, можно помогать руками." },
+  { id: 2, name: "Бабочка с наклоном вперед", info: "Выполнять 1-2 мин." },
+  { id: 3, name: "Два наклона вперед, третий с удержанием", info: "Удержание 10 сек. Выполнять по 8 раз." },
+  { id: 4, name: "Ноги врозь и боковые наклоны", info: "Удержание по 5 сек. Выполнять 15x15 раз." },
+  { id: 5, name: "Наклон назад с прогибом в спине", info: "Держать по 1 мин, по 3 подхода." },
+  { id: 6, name: "Выпад на правую и левую ногу", info: "Выполнять по 1 мин." },
+  { id: 7, name: "Выпад со сгибом в задней ноге", info: "Противоположная рука удерживает ногу. Выполнять 1 мин." },
+  { id: 8, name: "Скрещивание рук с вытягиванием ног", info: "Выполнять 1 мин." },
+  { id: 9, name: "Обхват ноги со внутренней стороны", info: "Обхват пятки и складка. На каждую ногу по 1 мин." },
+  { id: 10, name: "Корзинка", info: "С удержанием 5 секунд. Выполнять по 5 раз.", fileName: "v10 .mp4" }, // Специально для файла с пробелом
+  { id: 11, name: "Прогиб с колен", info: "Удерживая руками голень. Выполнять 1 мин." },
+  { id: 12, name: "Шпагат", info: "Выполнять поэтапно." },
+  { id: 13, name: "Мах ноги к себе поочередно", info: "С удержанием по 3 секунды. Выполнять 15x15 раз." }
 ];
 
 let currentActive = null;
 
 function draw() {
   const root = document.getElementById('exerciseList');
-  root.innerHTML = data.map(item => `
-    <div class="exercise-card ${currentActive === item.id ? 'active' : ''}" id="card-${item.id}">
-      <div class="header-row" onclick="toggleCard(${item.id})">
-        <div class="title"><span class="num">${item.id}</span>${item.name}</div>
-      </div>
-      <div class="content-box">
-        <video id="v-${item.id}" loop muted playsinline controls>
-          <source src="v${item.id}.mp4" type="video/mp4">
-          Ваш браузер не поддерживает видео.
-        </video>
-        <div class="instruction-text">
-          <b>Техника:</b> ${item.info}
+  root.innerHTML = data.map(item => {
+    // Определяем имя файла: если оно задано отдельно (как для v10), берем его, иначе стандартное
+    const videoName = item.fileName ? item.fileName : `v${item.id}.mp4`;
+    
+    return `
+      <div class="exercise-card ${currentActive === item.id ? 'active' : ''}" onclick="openCard(${item.id})">
+        <div class="header-row">
+          <div class="title"><span class="num">${item.id}.</span>${item.name}</div>
+        </div>
+        
+        <div class="content-box">
+          <video id="v-${item.id}" loop muted playsinline controls>
+            <source src="${encodeURIComponent(videoName)}" type="video/mp4">
+          </video>
+          <div class="instruction-text">
+            <b>Как делать:</b> ${item.info}
+          </div>
         </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
-function toggleCard(id) {
-  // Если нажимаем на ту же карточку — закрываем её
+function openCard(id) {
+  if (currentActive !== null) {
+    const p = document.getElementById(`v-${currentActive}`);
+    if (p) p.pause();
+  }
+
   if (currentActive === id) {
-    const video = document.getElementById(`v-${id}`);
-    if (video) video.pause();
     currentActive = null;
   } else {
-    // Закрываем предыдущее видео, если оно было
-    if (currentActive !== null) {
-      const oldVideo = document.getElementById(`v-${currentActive}`);
-      if (oldVideo) oldVideo.pause();
-    }
     currentActive = id;
-  }
-  
-  draw();
-
-  // Если открыли новую карточку — запускаем видео
-  if (currentActive !== null) {
     setTimeout(() => {
-      const video = document.getElementById(`v-${id}`);
-      if (video) {
-        video.play().catch(e => console.log("Автозапуск заблокирован браузером"));
-      }
-      // Плавная прокрутка к открытой карточке
-      document.getElementById(`card-${id}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 100);
+      const v = document.getElementById(`v-${id}`);
+      if (v) v.play().catch(() => {});
+    }, 400);
   }
+  draw();
 }
 
-// Первый запуск отрисовки
 draw();
 </script>
-
 </body>
 </html>
